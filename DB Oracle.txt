@@ -1,0 +1,1332 @@
+--DDL
+
+CREATE TABLE Student
+(
+Stud_id int,
+stud_name varchar(20),
+total_mark number(5,2)
+)
+
+
+--ALTER
+alter table Student MODIFY stud_name char(20)
+
+--Describe the data structure
+desc student
+
+--ADDING DATETYPE
+alter table Student ADD contact_num varchar(10)
+
+--CHANGING LENGTH or SIZE
+alter table Student MODIFY contact_num varchar(40)
+
+--RENAME COLUMN
+alter table Student RENAME COLUMN contact_num TO mobile_num 
+
+--Describe the data structure
+desc student
+
+--ADDING NEW COLUMN
+alter table student ADD contact_num varchar(40)
+
+--TO DELETE A COLUMN
+alter table student DROP COLUMN mobile_num
+
+--RENAME A TABLE
+alter table Student RENAME To Student1
+
+--Describe the data structure
+desc Student1
+
+--TO DELETE ALL THE RECORDS ---truncate
+TRUNCATE TABLE Student1
+
+--TO DELETE THE ENTIRE TABLE --drop
+DROP TABLE Student1
+
+
+----------------CONSTRAINTS
+--PRIMARY KEY
+
+--without primary key
+CREATE TABLE Department
+(dept_id int,
+dept_name varchar(20)
+) 
+
+
+--inserting values
+insert into Department(dept_id,dept_name)
+values(01,'CS')
+insert into Department(dept_id,dept_name)
+values(02,'IT')
+insert into Department(dept_id,dept_name)
+values(01,'CS')
+
+--to get the values int the table---select * from Department
+select * from Department
+
+desc Department
+
+drop table Department
+
+--with primary key
+CREATE TABLE Dept1(dept_id int primary key,dept_name varchar(20)) 
+
+--inserting values
+insert into Dept1(dept_id,dept_name)
+values(01,'CS')
+insert into Dept1(dept_id,dept_name)
+values(02,'IT')
+insert into Dept1(dept_id,dept_name)
+values(01,'CS')
+
+select * from Dept1
+
+desc Dept1
+
+CREATE TABLE Employ(emp_id int primary key,emp_name varchar(20),salary number(8,2),dept11_id int)
+
+desc Employ
+
+--adding a foreign key by altering the table
+ 
+alter table Employ ADD CONSTRAINT fk_dept_id 
+foreign key(dept11_id) 
+REFERENCES Dept1(dept_id)
+
+--dropping Employ
+drop table Employ
+
+CREATE TABLE Employment(emp_id int primary key,emp_name varchar(20),salary number(8,2),dept11_id int)
+
+desc Employment
+
+--adding a foreign key by altering the table
+ 
+alter table Employment ADD CONSTRAINT fk_dept_id 
+foreign key(dept11_id) 
+REFERENCES Dept1(dept_id)
+
+drop table Employment
+
+--setting a foreign key at the time of table creation
+
+CREATE TABLE Emp11(emp_id int primary key,emp_name varchar(20),salary number(8,2),dept11_id int,
+CONSTRAINT fk_dept_id
+foreign key(dept11_id) 
+REFERENCES Dept1(dept_id)
+)
+
+select * from Dept1
+
+insert into Emp11(emp_id,emp_name,salary,dept11_id)
+values(01,'ana',20000,1)
+
+insert into Emp11(emp_id,emp_name,salary,dept11_id)
+values(02,'sana',30000,2)
+
+select * from Emp11
+
+--
+truncate table Emp11
+
+--inserting multiple rows together
+
+INSERT ALL
+into Emp11(emp_id,emp_name,salary,dept11_id)
+values(01,'ana',20000,1)
+
+into Emp11(emp_id,emp_name,salary,dept11_id)
+values(02,'sana',30000,2)
+
+select * from dual   ----dual is a dummy table which is used to store multiple rows
+
+
+----------------------DML (data manipulation language)
+
+--update
+
+select * from Emp11
+
+
+UPDATE Emp11 SET salary = 50000 WHERE emp_id=01
+
+UPDATE Emp11 SET salary =70000 WHERE emp_name ='sana'
+
+--DELETE
+
+DELETE FROM Emp1
+1 WHERE emp_id=01
+
+
+--SELECT --(DQL - Data Query Language
+
+INSERT ALL
+into Emp11(emp_id,emp_name,salary,dept11_id)
+values(101,'anu',10000,1)
+
+into Emp11(emp_id,emp_name,salary,dept11_id)
+values(103,'venu',5000,2)
+
+into Emp11(emp_id,emp_name,salary,dept11_id)
+values(104,'abhi',6000,1)
+
+into Emp11(emp_id,emp_name,salary,dept11_id)
+values(105,'venu',30000,2)
+
+select * from dual
+
+select * from Emp11
+
+select emp_id,emp_name,salary from Emp11
+
+select distinct emp_name from Emp11
+select distinct salary from Emp11
+select distinct emp_id from Emp11
+
+
+---assignment---
+
+create table deptment(dept_id int,dept_name char(20),rating number)
+
+desc deptment
+
+alter table deptment MODIFY dept_name varchar(20)
+
+alter table deptment ADD location varchar(20)
+
+alter table deptment MODIFY location varchar(50)
+ 
+alter table deptment ADD contact_no int
+
+alter table deptment RENAME COLUMN location to address
+
+alter table deptment DROP COLUMN contact_no
+
+alter table deptment RENAME TO DepartmentMaster
+
+desc DepartmentMaster
+
+TRUNCATE table DepartmentMaster
+
+drop table DepartmentMaster
+
+
+
+--assignment
+
+--1--
+
+desc department
+
+CREATE TABLE department (
+    dept_no NUMBER(2) PRIMARY KEY,
+    dept_name VARCHAR(20),
+    floor VARCHAR(20),
+    location VARCHAR(20)
+)
+
+INSERT ALL
+    INTO Department(dept_no, dept_name) VALUES (1, 'Accounts')
+    INTO Department(dept_no, dept_name) VALUES (2, 'Sales')
+    INTO Department(dept_no, dept_name) VALUES (3, 'Marketing')
+SELECT * FROM dual
+
+SELECT * FROM department
+
+CREATE TABLE Employing (Empno NUMBER(3) PRIMARY KEY,Manager_id NUMBER(3),firstname VARCHAR(20),lastname VARCHAR(20),userid VARCHAR(20),dep_no NUMBER(2),
+salary NUMBER(5),commission NUMBER(3),joining_date DATE,Designation VARCHAR(25),
+CONSTRAINT fk_dep_no 
+FOREIGN KEY(dep_no) 
+REFERENCES department(dept_no)
+)
+
+INSERT ALL
+INTO Employing(Empno, Manager_id, firstname, lastname, userid, dep_no, salary, commission, joining_date, Designation)
+VALUES (1, 10, 'ana', 'girl', 'aaa', 1, 4000, 500, TO_DATE('24-AUG-2024', 'DD-MON-YYYY'), 'sysEngg')
+INTO Employing(Empno, Manager_id, firstname, lastname, userid, dep_no, salary, commission, joining_date, Designation)
+VALUES (2, 20, 'mana', 'dam', 'bbb', 2, 5000, 600, TO_DATE('25-AUG-2024', 'DD-MON-YYYY'), 'senior')
+INTO Employing(Empno, Manager_id, firstname, lastname, userid, dep_no, salary, commission, joining_date, Designation)
+VALUES (3, 30, 'bana', 'grt', 'ccc', 3, 6000, 700, TO_DATE('26-AUG-2024', 'DD-MON-YYYY'), 'manager')
+SELECT * FROM dual
+
+SELECT * FROM Employing
+
+ALTER Table Employing ADD HRA number(5,2)
+
+ALTER TABLE Employing ADD PF number(5,2)
+
+ALTER TABLE Employing ADD CONSTRAINT valuecheck CHECK(PF<=5000) 
+
+desc Employing
+
+----2---
+
+create table CUSTOMER(Custno number(3) primary key,Custname varchar2(20),Address varchar2(40))
+
+create table Order1(orderno number(3) Primary key,custnum number(3),orderdate date,
+CONSTRAINT fk_custnum
+FOREIGN KEY(custnum)
+REFERENCES CUSTOMER(Custno)
+)
+
+CREATE TABLE OrderItem1(ItemID number(3) Primary Key,OrderNo1 number(3),
+ItemName varchar2(20),Quantity number(2),
+CONSTRAINT fk_order
+FOREIGN KEY(OrderNo1)
+REFERENCES Order1(orderno)
+)
+
+ALTER TABLE CUSTOMER MODIFY Address varchar2(100)
+
+----3------
+
+create table Course(Courseid varchar2(5),StreamID varchar2(20),Title varchar2(40),
+Description varchar2(200),Fees number,Primary key (Courseid,StreamID))
+
+create table Batch(BatchID varchar2(30),CourseID varchar2(5),BatchName Char(1))
+
+create table Student(Studid varchar2(20) primary key,Lastname varchar2(25),MiddleName varchar2(30),
+Firstname varchar2(20),Dob Date,Address varchar2(50),City varchar2(20),State varchar2(2),
+Zipcode varchar2(9),Telephone varchar2(10),Fax varchar2(10),Email varchar2(30),
+Grade char(1))
+
+
+-----ASSIGNMENT----
+
+---1&2---
+create table Employ(empno int,ename varchar(20),deptno int)
+
+Insert all
+into Employ values(01,'Ana',101)
+into Employ values(02,'Sana',102)
+into Employ values(03,'Yana',103)
+into Employ values(04,'Banu',104)
+select * from dual
+
+select * from Employ
+
+create table Emp2 as select empno as id,ename as LastName,
+deptno as deptid from Employ
+
+select * from Emp2
+
+Insert all
+into Emp2 values(101,'aaa',111)
+into Emp2 values(102,'bbb',222)
+select * from dual
+
+---3&6---
+
+drop table dptment
+create table dptment(deptno int primary key,deptname varchar(30),dept_id int,
+location varchar(30))
+
+insert into dptment values (10, 'Accounts', 2, 'Trivandrum')
+
+select * from dptment
+
+create table Employs(empno int primary key,ename varchar(20),dept_no int,
+CONSTRAINT fk_empp
+FOREIGN KEY(dept_no)
+REFERENCES dptment(deptno))
+
+insert into Employs values (101, 'ana', 10)
+
+SELECT empno,ename FROM Employs WHERE empno = 101
+
+select * from Employs
+
+----4---
+create table deptment(deptno int,deptname varchar(30),dept_id int,location varchar(30))
+insert into deptment values(01,'cs',101,'ngl')
+
+create table staffs(staffno int,staffname varchar(30),staff_dom varchar(20))
+insert into staffs values(10,'ana','it')
+
+create table studt(studid int,stdname varchar(20),stdroll int)
+insert into studt values(101,'dino',02)
+
+create table prod(pdtid int,pdtname varchar(20),pdtsize int)
+insert into prod values(09,'soap',60)
+
+create table mark(sub varchar(20),mark int,outof int)
+insert into mark values('maths',78,100)
+
+create table Emp2(empno int primary key,ename varchar(20),dept_no int)
+insert into Emp2 values(06,'kim',98)
+
+create table office(of_code int,ofname varchar(50),loc varchar(40))
+insert into office values(090,'sss','tvm')
+
+create table customers(cus_no int,customer varchar(30),address varchar(50))
+insert into customers values(07,'vara','fff')
+
+
+drop table Customerss
+create table Customerss(cust_id int PRIMARY KEY,first_name varchar(50),
+phone varchar(20),address varchar(50))
+
+INSERT ALL
+INTO Customerss VALUES(1, 'Ana', '5551234', '123 Aaaaa')
+INTO Customerss VALUES(2, 'vena', '6877685', '123 Bbbb')
+INTO Customerss VALUES(3, 'sana', '6876878', '123 Jhjh')
+SELECT * FROM dual
+
+DELETE FROM Customerss WHERE cust_id = 2
+
+select * from Customerss
+
+update Customerss SET address = 'New Delhi' WHERE cust_id = 3
+
+drop table Employee
+CREATE TABLE Employee(empno int primary key,ename varchar(50),deptno int,
+salary number(10, 2))
+
+insert all
+into Employee(empno, ename,deptno,salary)
+values(1, 'ana',09,4000)
+into Employee(empno, ename,deptno,salary)
+values(2, 'mana',08,5000)
+into Employee(empno, ename,deptno,salary)
+values(3, 'sana',06,6000)
+select * from dual
+
+select * from Employee
+
+delete from Employee WHERE deptno = 06 AND salary > 5000
+
+update Employee SET deptno = 05, ename = 'dino'
+WHERE empno = 3
+
+drop table student
+create table Student(stud_id int primary key,first_name varchar(50),last_name varchar(50),
+email varchar(100),phone varchar(10),birthday DATE,state VARCHAR(50),age int)
+
+INSERT ALL
+INTO Student VALUES (1, 'ganb', 'anag', 'gana@g', '9876545678', TO_DATE('2005-06-20', 'YYYY-MM-DD'), 'city',21)
+INTO Student VALUES (2, 'hanaa', 'bbb', 'hna@g', '9876567898', TO_DATE('2005-01-20', 'YYYY-MM-DD'), 'citya',20)
+INTO Student VALUES (3, 'jany', 'ccc', 'jana@g', '2345678987', TO_DATE('2005-06-05', 'YYYY-MM-DD'), 'ngl',23)
+INTO Student VALUES (4, 'sani', 'ddd',null, null, TO_DATE('2005-06-20', 'YYYY-MM-DD'), 'tvm',27)
+SELECT * FROM dual
+
+select * from Student
+
+update Student SET email = 'NA' WHERE email IS NULL
+
+delete from Student WHERE age > 20
+
+delete from Student WHERE phone IS NULL AND email IS NULL
+
+DELETE FROM Student WHERE EXTRACT(MONTH FROM birthday) = 6
+AND EXTRACT(DAY FROM birthday) = 5
+
+UPDATE Student SET first_name = 'XXX',birthday = CURRENT_DATE
+WHERE SUBSTR(first_name, 4, 1) = 'a'
+
+DELETE FROM Student WHERE state LIKE '%a'
+
+UPDATE Student SET last_name = 'Jan' WHERE EXTRACT(MONTH FROM birthday) = 1
+
+DELETE FROM Student WHERE state LIKE 't%'
+
+***************************************************************************************************************************************
+
+----------------CONSTRAINTS
+--PRIMARY KEY
+
+--without primary key
+CREATE TABLE Department
+(dept_id int,
+dept_name varchar(20)
+) 
+
+
+--inserting values
+insert into Department(dept_id,dept_name)
+values(01,'CS')
+insert into Department(dept_id,dept_name)
+values(02,'IT')
+insert into Department(dept_id,dept_name)
+values(01,'CS')
+
+--to get the values int the table---select * from Department
+select * from Department
+
+desc Department
+
+drop table Department
+
+--with primary key
+CREATE TABLE Dept1(dept_id int primary key,dept_name varchar(20)) 
+
+--inserting values
+insert into Dept1(dept_id,dept_name)
+values(01,'CS')
+insert into Dept1(dept_id,dept_name)
+values(02,'IT')
+insert into Dept1(dept_id,dept_name)
+values(01,'CS')
+
+select * from Dept1
+
+desc Dept1
+
+CREATE TABLE Employ(emp_id int primary key,emp_name varchar(20),salary number(8,2),dept11_id int)
+
+desc Employ
+
+--adding a foreign key by altering the table
+ 
+alter table Employ ADD CONSTRAINT fk_dept_id 
+foreign key(dept11_id) 
+REFERENCES Dept1(dept_id)
+
+--dropping Employ
+drop table Employ
+
+CREATE TABLE Employment(emp_id int primary key,emp_name varchar(20),salary number(8,2),dept11_id int)
+
+desc Employment
+
+--adding a foreign key by altering the table
+ 
+alter table Employment ADD CONSTRAINT fk_dept_id 
+foreign key(dept11_id) 
+REFERENCES Dept1(dept_id)
+
+drop table Employment
+
+--setting a foreign key at the time of table creation
+
+CREATE TABLE Emp11(emp_id int primary key,emp_name varchar(20),salary number(8,2),dept11_id int,
+CONSTRAINT fk_dept_id
+foreign key(dept11_id) 
+REFERENCES Dept1(dept_id)
+)
+
+select * from Dept1
+
+insert into Emp11(emp_id,emp_name,salary,dept11_id)
+values(01,'ana',20000,1)
+
+insert into Emp11(emp_id,emp_name,salary,dept11_id)
+values(02,'sana',30000,2)
+
+select * from Emp11
+
+--
+---UNIQUE ---- AND NULL ------
+
+CREATE TABLE Dept01(dept_id int unique,dept_name varchar(20))
+
+desc Dept01
+
+insert into Dept01(dept_id,dept_name)
+values(1,'HR')
+insert into Dept01(dept_id,dept_name)
+values(1,'HR')
+insert into Dept01(dept_id,dept_name)
+values(null,'HR')
+
+select * from Dept01
+
+drop table Dept01
+
+---NOT NULL
+
+CREATE TABLE Dept01(dept_id int Not Null,dept_name varchar(20))
+
+insert into Dept01(dept_id,dept_name)
+values(1,'HR')
+insert into Dept01(dept_id,dept_name)
+values(1,'HR')
+insert into Dept01(dept_id,dept_name)
+values(null,'HR')
+
+select * from Dept01
+DROP table Dept01
+
+---CHECK
+
+CREATE TABLE Dept01(dept_id int,dept_name varchar(20),
+salary number(6) CHECK(salary > 300000))
+
+insert into Dept01 values(1,'HR',100000)
+
+insert into Dept01 values(null,'HR',100000)
+
+insert into Dept01 values(1,'HR',300000)
+
+insert into Dept01 values(1,'HR',400000)   --inserted
+
+insert into Dept01 values(1,'HR',400000)   ----accepts duplicates but doesn't accept null values
+
+select * from Dept01
+
+drop table Dept01
+
+---ON DELETE CASCADE
+
+create table Departmt(d_id int primary key,d_name varchar(20))
+
+create table Emp(emp_id int primary key,emp_name varchar(20),salary number(7),dept_id int,
+CONSTRAINT fk_ppid
+FOREIGN KEY(dept_id)
+REFERENCES Departmt(d_id) ON DELETE CASCADE
+)
+
+desc Emp
+
+drop table Departmt
+
+insert into Departmt values(1,'hr')
+insert into Departmt values(2,'acc')
+select * from Departmt
+
+insert into Emp values(101,'venu',10000,1)
+insert into Emp values(102,'binu',20000,2)
+insert into Emp values(103,'nanu',30000,1)
+select * from Emp
+
+drop table Emp
+
+create table Emp(emp_id int primary key,emp_name varchar(20),dept_id int,
+CONSTRAINT fk_ppid
+FOREIGN KEY(dept_id)
+REFERENCES Departmt(d_id) 
+)
+
+delete from Departmt where d_id=1
+
+select * from Departmt 
+
+desc Emp
+
+
+---ON DELETE SET NULL
+
+create table Departmt(d_id int primary key,d_name varchar(20))
+
+create table Emp(emp_id int primary key,emp_name varchar(20),salary number(7),dept_id int,
+CONSTRAINT fk_ppid
+FOREIGN KEY(dept_id)
+REFERENCES Departmt(d_id) ON DELETE SET NULL )
+
+insert into Departmt values(1,'hr')
+insert into Departmt values(2,'acc')
+select * from Departmt
+
+insert into Emp values(101,'venu',10000,1)
+insert into Emp values(102,'binu',20000,2)
+insert into Emp values(103,'nanu',30000,1)
+select * from Emp
+
+delete from Departmt where d_id=1
+
+-------------------SELECT-----
+
+CREATE TABLE product( productid int primary key NOT NULL,productname varchar(50) UNIQUE,productdiscription varchar(50), price int,weight int,companycode int)
+
+INSERT ALL
+into product values(11293,'meswak','ayurvedic',30,200,112234)
+into product values(11294,'colgate','paste',40,300,112233)
+into product values(11295,'pepu','paste',50,400,112234)
+into product values(11296,'closeup','toothcare',60,500,112232)
+into product values(11297,'sensu','toothcare',70,600,112232)
+into product values(11298,'vicco','ayurvedic',70,600,112237)
+
+select * from dual
+
+select * from product
+
+------SELECT-----
+
+---DISTINCT
+
+select distinct productdiscription from product
+
+
+----copying the data from one table other table(that has a sametable structure)
+
+CREATE TABLE product11( productid int primary key NOT NULL,productname varchar(50) UNIQUE,productdiscription varchar(50), price int,weight int,companycode int)
+
+select * from product11
+
+---copying data from table 'product' to table 'product11'--
+
+insert into product11 select * from product
+
+---WHERE
+
+select productname,productdiscription from product11 WHERE productdiscription='toothcare'
+
+*********************************************************************************************************************************************************
+
+
+----operators-------------------
+
+CREATE TABLE product22( productid int primary key NOT NULL,productname varchar(50) UNIQUE,productdiscription varchar(50), price int,weight int,companycode int)
+
+INSERT ALL
+into product22 values(11293,'meswak','ayurvedic',30,200,112234)
+into product22 values(11294,'colgate','paste',40,300,112233)
+into product22 values(11295,'pepu','paste',50,400,112234)
+into product22 values(11296,'closeup','toothcare',60,500,112232)
+into product22 values(11297,'sensu','toothcare',70,600,112232)
+into product22 values(11298,'vicco','ayurvedic',70,600,112237)
+
+select * from dual
+
+select * from product22
+
+-------------ARITHMETIC OPERATOR--
+
+select productid,productname,productdiscription,price,price+100 from product22
+
+select productid,productname,productdiscription,price as "COST",price+100 AS "Price increased by 100" from product22
+
+-----comparison  or relational operators--
+
+--<> --- (not equal to)
+select * from product22 where price<>70
+
+--BETWEEN...AND--
+select productname,price from product22 WHERE price BETWEEN 30 AND 40
+
+--IN---
+select productname,price  from product22 WHERE price IN (30,50,70)
+
+--LIKE---
+select  from product22 WHERE
+
+--IS NULL--
+
+INSERT into product22(productid,productname,productdiscription, price,weight,companycode)
+values(11299,'test','ayurvedic',70,null,112237)
+
+select productname,weight from product22 where weight IS NULL
+
+--LIKE--
+
+select productname from product22 where productname LIKE 'c%'  ---casesensitive
+
+select productname from product22 where productname LIKE '%ate%'
+
+select productname from product22 where productname LIKE '_ate%'
+
+select productname from product22 where productname LIKE 'C_' ---match any string that starts with c and followed by any single character
+
+select productname from product22 where productname LIKE 'c_'
+
+select productname from product22 where productname NOT LIKE 'c%'
+
+------**LOGICAL OPERATORS-----
+
+--AND --OR-- NOT--
+
+--AND--
+
+select productname,price from product where price<=40 AND WEIGHT>200
+
+--OR--
+
+select productname,price from product where price<=40 OR WEIGHT>200
+
+--NOT--
+
+select productname,price from product where NOT (price>40)
+
+
+---CONCATENATION - ( || ) two strings
+
+drop table Employment
+
+create table Employment(first_name varchar(20),last_name varchar(20),salary number(8))
+
+insert  all
+into Employment values('kavya','raj',24000)
+into Employment values('arjun','roy',24000)
+select * from dual
+
+select * from Employment
+
+--concatenating firsta and last name
+
+select first_name || last_name AS "FULLNAME" from Employment
+
+select first_name ||' ' || last_name AS "FULL NAME" from Employment
+
+--ORDER BY---
+
+select productname,price from product ORDER BY productname   ---order : alphabetical order
+
+select productname,price from product ORDER BY price    ---ascending order (default)
+
+select productname,price from product ORDER BY price asc  ---ascending order
+
+select productname,price from product ORDER BY price desc   ----descending order
+
+-------------------************************************************************************************-----------------------------------------
+
+----JOINS------
+drop table Company
+
+create table Company(
+Companycode int primary key,
+Companyname varchar(50) unique
+);
+
+insert all
+into Company(Companycode,companyname)
+values(112232,'Proctor & Gamble')
+into Company(Companycode,companyname)
+values(112237,'Hindustan Unilever Limited')
+into Company(Companycode,companyname)
+values(112236,'Dabur')
+select * from dual
+
+select * from Company
+
+select * from product
+
+
+---EQUI JOIN / Inner Join---(=)
+
+select productname,productdiscription,companyname 
+FROM product JOIN Company
+ON 
+product.Companycode = Company.Companycode   ---(different column name can be used for common column)
+
+--OR (another method)
+
+select productname,productdiscription,companyname 
+FROM product prod JOIN Company com
+ON prod.Companycode = com.Companycode
+
+--OR 
+
+select productname,productdiscription,companyname 
+FROM product prod JOIN Company com
+USING(Companycode)
+
+
+---OUTER JOIN--
+
+--LEFT OUTER JOIN(LEFT JOIN)
+
+select productname,productdiscription,companyname 
+FROM product LEFT JOIN Company                          ---all values of left table will be viewed and for the right table -only the matching values will be viewed
+ON product.Companycode = Company.Companycode  
+
+select productname,productdiscription,price,companyname 
+FROM Company LEFT JOIN product                      
+ON product.Companycode = Company.Companycode 
+
+--RIGHT OUTER JOIN (RIGHT JOIN)
+    ---all values of right table will be viewed and for the left table -only the matching values will be viewed
+
+select productname,productdiscription,companyname 
+FROM Company RIGHT JOIN product                          
+ON product.Companycode = Company.Companycode 
+
+----FULL JOIN-- all values are viewed
+
+select productname,productdiscription,companyname 
+FROM Company FULL JOIN product                          
+ON product.Companycode = Company.Companycode
+
+
+-------SELF JOIN---
+
+CREATE TABLE Staff(EmpId INT PRIMARY KEY, managerId int , 
+Firstname VARCHAR(50) , Lastname VARCHAR(50), deptno int);
+
+INSERT ALL
+INTO Staff (EmpId , managerId , Firstname , Lastname , deptno)
+VALUES (111, '', 'Mark', 'Antony', 11)
+INTO Staff (EmpId , managerId , Firstname , Lastname , deptno)
+VALUES (112, 111, 'Julius', 'Cesar', 11)
+INTO Staff (EmpId , managerId , Firstname , Lastname , deptno)
+VALUES (113, 111, 'Cleopatra', 'C', 11)
+INTO Staff (EmpId , managerId , Firstname , Lastname , deptno)
+VALUES (114, 112, 'Brutus', 'B', 11)
+
+select * from dual
+
+select * from Staff
+      ---employee & manager are alias names
+select employee.Firstname "Employee_name", manager.Firstname "Manager Name"   
+FROM Staff employee JOIN Staff manager
+ON  employee.managerId = manager.EmpId
+
+--Non-Equi Join (other than = )----used when we dont have any foreign key or common column or a matching thing
+
+CREATE TABLE PriceRange(RangeCode INT PRIMARY KEY, 
+Rangename VARCHAR(50) ,  LowerRange int, HigherRange int);
+
+INSERT ALL
+INTO PriceRange(RangeCode , Rangename , LowerRange , HigherRange )
+VALUES (111, 'Low', 1, 1000)
+INTO PriceRange (RangeCode , Rangename , LowerRange , HigherRange)
+VALUES (112, 'Medium', 1001, 10000)
+INTO PriceRange(RangeCode , Rangename , LowerRange , HigherRange)
+VALUES (113, 'High', 10001, 50000)
+select * from dual
+
+select * from PriceRange
+drop table PriceRange
+
+select * from product
+
+
+--JOINS WITH THREE TABLES
+
+---pricerange---
+CREATE TABLE table2(RangeCode INT PRIMARY KEY, Rangename VARCHAR(50) ,  LowerRange int, HigherRange int,Companycode int,
+CONSTRAINT fk_pr
+FOREIGN KEY(companycode)
+REFERENCES table1(Companycode))
+
+INSERT ALL
+INTO table2(RangeCode , Rangename , LowerRange , HigherRange,Companycode )
+VALUES (111, 'Low', 1, 1000,04)
+INTO table2 (RangeCode , Rangename , LowerRange , HigherRange,Companycode)
+VALUES (112, 'Medium', 1001, 10000,05)
+INTO table2(RangeCode , Rangename , LowerRange , HigherRange,Companycode)
+VALUES (113, 'High', 10001, 50000,06)
+select * from dual
+
+select * from table2
+
+--company--
+
+create table table1(Companycode int primary key,Companyname varchar(50))
+
+insert into table1 (Companycode,companyname)
+values(04,'Proctor & Gamble')
+insert into table1 (Companycode,companyname)
+values(05,'Hindustan Unilever Limited')
+insert into table1(Companycode,companyname)
+values(06,'Dabur')
+select * from table1
+
+CREATE TABLE table3( productid int primary key NOT NULL,productname varchar(50),productdiscription varchar(50), price int,companycode int,
+CONSTRAINT fk_p
+FOREIGN KEY(companycode)
+REFERENCES table1(Companycode))
+
+INSERT ALL
+into table3 values(11293,'meswak','ayurvedic',30,04)
+into table3 values(11294,'colgate','paste',40,06)
+into table3 values(11295,'pepu','paste',50,05)
+select * from dual
+
+--EQUI JOIN---
+select companyname,RangeCode,productname,
+FROM table2 price JOIN table1 company JOIN table3 product
+USING(companycode)
+
+SELECT companyname,Rangename,productname,productdiscription
+FROM table1 x 
+
+JOIN table2 y ON y.companycode = x.companycode
+JOIN table3 z ON z.companycode = x.companycode
+
+
+-------------------------------------------------------------   FUNCTIONS  ---------------------------------------------
+
+select * from product
+
+-------AGGREGATE FUNCTIONS-----
+
+---COUNT()      --null values are not counted
+
+select COUNT(PRICE) from product
+
+select COUNT(PRICE) from product where price<50 
+
+-----AVG()
+
+SELECT AVG(PRICE) from product
+
+select avg(weight) from product
+
+----SUM()
+
+select SUM(price) from product
+
+--MIN()
+
+select MIN(price) as "smallest price" from product
+
+--MAX()
+
+select MAX(price) as "largest price" from product
+
+
+---GROUP BY & HAVING------
+
+select PRODUCTDISCRIPTION,COUNT(productname) from product GROUP BY PRODUCTDISCRIPTION
+
+select productname,MIN(price) as "smallest price" from product GROUP BY productname having min(price)<50  ----where doesnt work for multiple ---so 'HAVING'
+
+---------------------   DATE FUNCTIONS   ----------------------
+
+--to get current table
+select sysdate from dual
+select current_date from dual
+
+--to get last day of current month
+select LAST_DAY(sysdate) from dual
+
+----MONTHS BETWEEN
+select MONTHS_BETWEEN(sysdate,DATE '2020 -08-27') from dual
+
+--past month  -positive ---& future moth -negative 
+select MONTHS_BETWEEN(sysdate,Date'2020-08-27') from dual
+select MONTHS_BETWEEN(sysdate,Date'2030-08-27') from dual
+
+-------TRUNC ------
+      --to remove the time portion from a datetime value (or) to truncate dateteime to  specific unit(such as day,month,year) based onuy requirement
+
+select TRUNC(sysdate,'MONTH') MONTH from dual
+
+select TRUNC(sysdate,'Year') YEAR from dual
+
+select TRUNC(sysdate,'DAY') DAY from dual   --first day of week
+
+select TRUNC(DATE'2030-08-21','DAY') DAY from dual   --first day of week
+
+
+---EXTRACT---
+   ---extract day,month or year
+ 
+select EXTRACT(MONTH FROM sysdate) MONTH from dual
+
+select EXTRACT(YEAR FROM sysdate) YEAR from dual
+
+select EXTRACT(DAY FROM sysdate) DAY from dual
+
+select TRUNC(MONTHS_BETWEEN(DATE '2030-08-27',sysdate)/12) YEARS_DIFFERENCE from dual
+
+
+------------------------ ARITHMATIC FUNCTIONS  -----------------------------
+
+---CEIL  FN-----retuns the round of value(=the nearest largest number or the same num)
+
+select 1567.38 AS "NUMBER", CEIL(1567.38) from dual
+
+-----ROUND FN
+select 1567.38 AS "NUMBER", ROUND(1567.38) from dual
+select ROUND(1567.38,1) from dual   ---1567.4
+select ROUND(1567.38,-3) from dual    ---1600
+select ROUND(1567.3877788989898989898988989898,10) from dual  ---1567.387778899
+
+
+----POWER FN 
+select power(3,2) from dual  --9
+
+---FLOOR
+
+select FLOOR(4.93) from dual  --4 ------this returns the largest integer value that is either less than x or equal to
+
+
+-----character fns
+
+select lower('COMPUTER') from dual
+
+select upper('computer') from dual
+
+select INITCAP('hai bye tata') from dual  ----Hai Bye Tata
+
+select length('computer science') from dual  ---16
+
+select SUBSTR('good morning',6) from dual   ---morning
+
+select SUBSTR('good morning',-6,4) from dual ---orni -(starting from 6 chars from the end, 4: length of substring to be viewed)
+
+select INSTR('good morning','orn') from dual   ---7
+
+select CONCAT('good morning',' have a good day') from dual  ----good morning have a good day
+
+select CONCAT(NULL,' have a good day') from dual  ---have a good day
+
+select * from product
+
+-------AGGREGATE FUNCTIONS-----   -we exactly get one output
+
+---COUNT()      --null values are not counted
+
+select COUNT(PRICE) from product
+
+select COUNT(PRICE) from product where price<50 
+
+-----AVG()
+
+SELECT AVG(PRICE) from product
+
+select avg(weight) from product
+
+----SUM()
+
+select SUM(price) from product
+
+--MIN()
+
+select MIN(price) as "smallest price" from product
+
+--MAX()
+
+select MAX(price) as "largest price" from product
+
+
+---GROUP BY & HAVING------
+
+select PRODUCTDISCRIPTION,COUNT(productname) from product GROUP BY PRODUCTDISCRIPTION
+
+select productname,MIN(price) as "smallest price" from product GROUP BY productname having min(price)<50  ----where doesnt work for multiple ---so 'HAVING'
+
+---------------------   DATE FUNCTIONS   ----------------------
+
+--to get current table
+select sysdate from dual
+select current_date from dual
+
+--to get last day of current month
+select LAST_DAY(sysdate) from dual
+
+----MONTHS BETWEEN
+select MONTHS_BETWEEN(sysdate,DATE '2020 -08-27') from dual
+
+--past month  -positive ---& future moth -negative 
+select MONTHS_BETWEEN(sysdate,Date'2020-08-27') from dual
+select MONTHS_BETWEEN(sysdate,Date'2030-08-27') from dual
+
+-------TRUNC ------
+      --to remove the time portion from a datetime value (or) to truncate dateteime to  specific unit(such as day,month,year) based onuy requirement
+
+select TRUNC(sysdate,'MONTH') MONTH from dual
+
+select TRUNC(sysdate,'Year') YEAR from dual
+
+select TRUNC(sysdate,'DAY') DAY from dual   --first day of week
+
+select TRUNC(DATE'2030-08-21','DAY') DAY from dual   --first day of week
+
+
+---EXTRACT---
+   ---extract day,month or year
+ 
+select EXTRACT(MONTH FROM sysdate) MONTH from dual
+
+select EXTRACT(YEAR FROM sysdate) YEAR from dual
+
+select EXTRACT(DAY FROM sysdate) DAY from dual
+
+select TRUNC(MONTHS_BETWEEN(DATE '2030-08-27',sysdate)/12) YEARS_DIFFERENCE from dual
+
+
+------------------------ ARITHMATIC FUNCTIONS  -----------------------------
+
+---CEIL  FN-----retuns the round of value(=the nearest largest number or the same num)
+
+select 1567.38 AS "NUMBER", CEIL(1567.38) from dual
+
+-----ROUND FN
+select 1567.38 AS "NUMBER", ROUND(1567.38) from dual
+select ROUND(1567.38,1) from dual   ---1567.4
+select ROUND(1567.38,-3) from dual    ---1600
+select ROUND(1567.3877788989898989898988989898,10) from dual  ---1567.387778899
+
+
+----POWER FN 
+select power(3,2) from dual  --9
+
+---FLOOR
+
+select FLOOR(4.93) from dual  --4 ------this returns the largest integer value that is either less than x or equal to
+
+
+-----character fns
+
+select lower('COMPUTER') from dual
+
+select upper('computer') from dual
+
+select INITCAP('hai bye tata') from dual  ----Hai Bye Tata
+
+select length('computer science') from dual  ---16
+
+select SUBSTR('good morning',6) from dual   ---morning
+
+select SUBSTR('good morning',-6,4) from dual ---orni -(starting from 6 chars from the end, 4: length of substring to be viewed)
+
+select INSTR('good morning','orn') from dual   ---7
+
+select CONCAT('good morning',' have a good day') from dual  ----good morning have a good day
+
+select CONCAT(NULL,' have a good day') from dual  ---have a good day
+
+
+
+--**********************************************************************  SUB QUERIES  ********************************************************************
+
+select * from product
+
+---SINGLE ROW SUBQUERY
+
+select PRODUCTNAME,PRICE from product where PRICE = (select price from product where PRODUCTNAME='vicco')
+
+---ASSIGN---
+
+select PRODUCTNAME,PRODUCTDISCRIPTION,PRICE from product where PRODUCTDISCRIPTION = (select PRODUCTDISCRIPTION from product where COMPANYCODE='112233')
+
+select PRODUCTNAME,PRODUCTDISCRIPTION,PRODUCTID from product where PRODUCTDISCRIPTION = (select PRODUCTDISCRIPTION from product where PRODUCTID='11297')
+
+---MULTIPLE ROW SUBQUERY
+
+select PRODUCTNAME,PRODUCTDISCRIPTION,PRICE from product where PRODUCTDISCRIPTION IN 
+(select PRODUCTDISCRIPTION from product where COMPANYCODE='112232')
+
+select PRODUCTNAME,PRODUCTDISCRIPTION,PRICE from product where PRODUCTDISCRIPTION >ALL
+(select PRODUCTDISCRIPTION from product where COMPANYCODE='112232')
+ 
+select PRODUCTNAME,PRICE from product where PRICE <ALL
+(select price from product where PRODUCTDISCRIPTION ='toothcare')
+
+
+--MULTIPLE COLOUMN
+
+select PRODUCTNAME,WEIGHT,PRICE from product WHERE (PRICE,WEIGHT) IN
+(select PRICE,WEIGHT from product where PRODUCTNAME='sensu')
+
+select * from company
+
+---CORRELATED SUB QUERY
+
+select COMPANYNAME,(select SUM(price) from product WHERE product.companycode = company.companycode) AS "Sum of price" from company
+
+select COMPANYNAME,(select SUM(price) from product WHERE companycode = company.companycode) AS "Sum of price" from company
+
+
+----SCALAR SUB QUERY
+
+select * from product
+
+select * from product where price > (select AVG(price) from product )
+
+
+
+
+--------VIEW, INDEX, SEQUENCE, SYNONYMS-----------
+
+---VIEW---
+
+select * from product
+
+create VIEW prodtable AS SELECT PRODUCTNAME,PRODUCTDISCRIPTION,PRICE
+FROM product 
+
+create VIEW prodta AS SELECT PRODUCTNAME,PRODUCTDISCRIPTION,PRICE
+FROM product WHERE PRICE<=50
+
+select * from prodta
+drop VIEW prodtable
+
+select * from Employee
+create VIEW view_emp(EMPNO,ENAME,DEPTNO,SALARY) AS select * from Employee WHERE SALARY<6000 WITH CHECK OPTION
+
+drop VIEW view_emp
+
+select * from view_emp
+
+create VIEW view_emp1(EMPNO,ENAME,DEPTNO) AS select * from Employee WHERE SALARY<6000 WITH CHECK OPTION   -------when using SELECT * ,should specify all the columns  or ERROR
+
+select * from view_emp1
+
+create VIEW view_emp1 AS select * from Employee WHERE SALARY<6000 WITH CHECK OPTION
+
+
+----- updatable view
+
+select * from Employee
+
+select * from view_emp
+
+insert into view_emp values(104,'Reshma',7000,2)
+
+-----  non-updatable view
+
+create VIEW SalesSummary AS SELECT PRODUCTID,SUM(PRICE) AS ToatlQuantity
+FROM product 
+GROUP BY PRODUCTID
+
+select * from SalesSummary
+
+
+-----------INDICES---
+create INDEX prod_index ON product(PRICE)
+
+drop index prod_index
+
+SELECT * FROM user_indexes WHERE index_name = 'PROD_INDEX'
+
+SELECT * FROM all_indexes WHERE index_name = 'PROD_INDEX' and table_name='PRODUCT'
+
+
+---SEQUENCE------
+
+create SEQUENCE Seq1
+    INCREMENT BY 1
+    START WITH 1
+    MAXVALUE 10
+
+SELECT * FROM user_sequences WHERE sequence_name = 'SEQ1'    ---to view sequence
+
+create table student3(Sid int primary key,name varchar(20))
+
+insert into student3(Sid,name)
+values(seq1.NEXTVAL,'kavi')
+
+insert into student3(Sid,name)
+values(seq1.NEXTVAL,'abi')
+
+select * from student2
+drop table student3
+
+select seq1.CURRVAL from dual
+
+select seq1.NEXTVAL from dual
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
